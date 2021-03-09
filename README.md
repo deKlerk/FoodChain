@@ -8,3 +8,5 @@ In order to start using Food Chain, you will need to have Python 2.7 installed o
 Then, in Grasshopper, place GhPython-Remote component on the canvas, set the location to the folder where python.exe (2.7) is installed and add a panel with the name of the module ("rdflib") to the component's "module" input.
 
 The module will be accessible to all Food Chain components via "scriptcontext.sticky".
+
+![GhPython-Remote with RDFLib](./img/GhPython_Remote.jpg)
