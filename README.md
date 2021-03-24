@@ -10,3 +10,9 @@ Then, in Grasshopper, place GhPython-Remote component on the canvas, set the loc
 The module will be accessible to all Food Chain components via "scriptcontext.sticky".
 
 ![GhPython-Remote with RDFLib](./img/GhPython_Remote.jpg)
+
+ 
+
+## Acknowledgments
+
+**Food Chain** is part of ongoing research by Rui de Klerk, made possible with the financial support from the Portuguese Foundation for Science and Technology (FCT) through the FCT Doctoral Grant SFRH/BD/131386/2017.
