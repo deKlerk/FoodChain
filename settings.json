@@ -1,0 +1,24 @@
+{
+    "version": "0.1.3",
+    "namespaces":{
+        "omg": "http://w3id.org/omg",
+        "schema": "http://schema.org",
+        "w3id-org": "https://w3id.org",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema",
+        "opm": "https://w3id.org/opm",
+        "seas": "https://w3id.org/seas",
+        "dc": "http://purl.org/dc/elements/1.1/",
+        "terms": "http://purl.org/dc/terms",
+        "vann": "http://purl.org/vocab/vann",
+        "prov": "http://www.w3.org/ns/prov",
+        "foaf": "http://xmlns.com/foaf/0.1",
+        "bot": "https://w3id.org/bot#",
+        "cc": "http://creativecommons.org/ns#",
+        "list": "https://w3id.org/list#",
+        "expr": "https://w3id.org/express#",
+        "ifc": "http://www.buildingsmart-tech.org/ifcOWL/IFC4_ADD2#"
+    }
+}
