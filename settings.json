@@ -1,5 +1,5 @@
 {
-    "version": "0.1.4",
+    "version": "0.1.5",
     "namespaces":{
         "omg": "http://w3id.org/omg",
         "schema": "http://schema.org",
