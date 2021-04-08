@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace FoodChain
 {
-    public class Parser : GH_Component
+    public class Serializer : GH_Component
     {
         //private PyScope ps;
         private string outformat = "turtle";
@@ -25,9 +25,9 @@ namespace FoodChain
         /// new tabs/panels will automatically be created.
         /// </summary>
         public Parser()
-          : base("Graph Parser", "Parser",
-              "Parses a Graph given an URI",
-              "Food Chain", "Inspect")
+          : base("Graph Serializer", "Serialize",
+              "Serializes a Graph to a fortmat of choice",
+              "Food Chain", "Create")
         {
             Environment.SetEnvironmentVariable("PATH", @"C:\Python37", EnvironmentVariableTarget.Process);
             Environment.SetEnvironmentVariable("PYTHONHOME", @"C:\Python37", EnvironmentVariableTarget.Process);
@@ -47,7 +47,8 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("Uri", "U", "URI of RDF data to parse", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Graph", "G", "RDFLib Graph to serialize", GH_ParamAccess.item);
+            pManager.AddGenericParameter("File", "F", "File path to serialize Graph onto", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -55,8 +56,7 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Graph", "G", "RDFLib Graph", GH_ParamAccess.item);
-            pManager.AddTextParameter("Text", "T", "Text rendering of the parsed RDFLib Graph", GH_ParamAccess.list);
+            pManager.AddTextParameter("Text", "T", "Text rendering of the RDFLib Graph", GH_ParamAccess.list);
         }
 
         /// <summary>

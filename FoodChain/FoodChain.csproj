@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Serializer.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="FoodChainInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
