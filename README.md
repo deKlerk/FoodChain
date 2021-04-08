@@ -1,6 +1,6 @@
 # Food Chain plugin for Grasshopper
 
-Food Chain offers a set of components to work with RDF data inside of Grasshopper. It uses Python.NET < https://pythonnet.github.io/ > to access RDFLib, a Python module to create, load, search, edit data in RDF Graphs. < https://rdflib.readthedocs.io/ >
+Food Chain offers a set of components to work with RDF data inside of Grasshopper. It uses Python.NET <https://pythonnet.github.io/> to access RDFLib, a Python module to create, load, search, edit data in RDF Graphs. <https://rdflib.readthedocs.io/>
 
 It is still in an early stage of development and currently work in progress...
 
