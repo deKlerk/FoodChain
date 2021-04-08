@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodChain", "FoodChain\FoodChain.csproj", "{DBF4B39D-8E55-4656-845C-3C29725AA558}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBF4B39D-8E55-4656-845C-3C29725AA558}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBF4B39D-8E55-4656-845C-3C29725AA558}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBF4B39D-8E55-4656-845C-3C29725AA558}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBF4B39D-8E55-4656-845C-3C29725AA558}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9CB04061-6D18-41BA-9723-E49C761A1939}
+	EndGlobalSection
+EndGlobal
