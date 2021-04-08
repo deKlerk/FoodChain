@@ -26,7 +26,7 @@ namespace FoodChain
             get
             {
                 //Return a short string describing the purpose of this GHA library.
-                return "";
+                return "Food Chain offers a set of components to work with RDF data inside of Grasshopper. It uses Python.NET ( https://pythonnet.github.io/ ) to access RDFLib, a Python module to create, load, search, edit data in RDF Graphs. ( https://rdflib.readthedocs.io/ )";
             }
         }
         public override Guid Id
@@ -42,7 +42,7 @@ namespace FoodChain
             get
             {
                 //Return a string identifying you or your company.
-                return "HP Inc.";
+                return "Rui de Klerk";
             }
         }
         public override string AuthorContact
@@ -50,7 +50,7 @@ namespace FoodChain
             get
             {
                 //Return a string representing your preferred contact details.
-                return "";
+                return "rui.klerk@campus.ul.pt";
             }
         }
     }
