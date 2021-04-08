@@ -1,2 +1,9 @@
 C:\Users\ruide\source\repos\FoodChain\FoodChain\obj\Debug\FoodChain.csprojAssemblyReference.cache
 C:\Users\ruide\source\repos\FoodChain\FoodChain\obj\Debug\FoodChain.csproj.CoreCompileInputs.cache
+C:\Users\ruide\source\repos\FoodChain\FoodChain\bin\FoodChain.dll
+C:\Users\ruide\source\repos\FoodChain\FoodChain\bin\FoodChain.pdb
+C:\Users\ruide\source\repos\FoodChain\FoodChain\bin\Python.Runtime.dll
+C:\Users\ruide\source\repos\FoodChain\FoodChain\bin\Python.Runtime.xml
+C:\Users\ruide\source\repos\FoodChain\FoodChain\obj\Debug\FoodChain.csproj.CopyComplete
+C:\Users\ruide\source\repos\FoodChain\FoodChain\obj\Debug\FoodChain.dll
+C:\Users\ruide\source\repos\FoodChain\FoodChain\obj\Debug\FoodChain.pdb
