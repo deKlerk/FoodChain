@@ -1,6 +1,5 @@
 ﻿using Python.Runtime;
 using Grasshopper.Kernel;
-using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -14,7 +13,7 @@ namespace FoodChain
 {
     public class Parser : GH_Component
     {
-        private PyScope ps;
+        //private PyScope ps;
         private string outformat = "turtle";
         private Dictionary<string, bool> flags = new Dictionary<string, bool>();
 
@@ -40,7 +39,7 @@ namespace FoodChain
             flags.Add("turtle", true);
             flags.Add("nt", false);
             flags.Add("xml", false);
-            //flags.Add("rdfa", false);
+            //flags.Add("json-ld", false);
         }
 
         /// <summary>
@@ -56,8 +55,8 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Graph", "G", "Graph type", GH_ParamAccess.item);
-            pManager.AddTextParameter("Txt", "T", "out", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Graph", "G", "RDFLib Graph", GH_ParamAccess.item);
+            pManager.AddTextParameter("Txt", "T", "Text rendering of the parsed RDFLib Graph", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -73,8 +72,10 @@ namespace FoodChain
                 if (!DA.GetData(0, ref uri)) { return; }
 
 
-                dynamic rdflib = Py.Import("rdflib");    // Imports RDFLib
-                dynamic g = rdflib.graph.Graph();        // Creates an empty RDFLib Graph
+                dynamic rdflib = Py.Import("rdflib");   // Imports RDFLib
+                //dynamic SPARQLWrapper = Py.Import("SPARQLWrapper");  // Imports SPARQLWrapper
+                //dynamic json = Py.Import("json");                    // Imports Json
+                dynamic g = rdflib.graph.Graph();       // Creates an empty RDFLib Graph
 
                 string outtext = null;
 
@@ -100,23 +101,28 @@ namespace FoodChain
             ToolStripMenuItem n3 = Menu_AppendItem(menu, "N3", PickFormat, true);
             n3.Tag = "n3";
             n3.Checked = flags[n3.Tag.ToString()];
+            n3.ToolTipText = $"Parse in {n3.Text} format";
 
 
             ToolStripMenuItem ttl = Menu_AppendItem(menu, "Turtle", PickFormat, true);
             ttl.Tag = "turtle";
             ttl.Checked = flags[ttl.Tag.ToString()];
+            ttl.ToolTipText = $"Parse in {ttl.Text} format";
 
             ToolStripMenuItem nt = Menu_AppendItem(menu, "N-Triple", PickFormat, true);
             nt.Tag = "nt";
             nt.Checked = flags[nt.Tag.ToString()];
+            nt.ToolTipText = $"Parse in {nt.Text} format";
 
             ToolStripMenuItem rdfxml = Menu_AppendItem(menu, "RDF/XML", PickFormat, true);
             rdfxml.Tag = "xml";
             rdfxml.Checked = flags[rdfxml.Tag.ToString()];
+            rdfxml.ToolTipText = $"Parse in {rdfxml.Text} format";
 
-            //ToolStripMenuItem rdfa = Menu_AppendItem(menu, "RDFa", PickFormat, true);
-            //rdfa.Tag = "rdfa";
-            //rdfa.Checked = flags[rdfa.Tag.ToString()];
+            //ToolStripMenuItem jsonld = Menu_AppendItem(menu, "JSON-LD", PickFormat, true);
+            //jsonld.Tag = "json-ld";
+            //jsonld.Checked = flags[jsonld.Tag.ToString()];
+            //jsonld.ToolTipText = $"Parse in {jsonld.Text} format";
 
         }
 
