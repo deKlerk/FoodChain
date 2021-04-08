@@ -6,7 +6,7 @@ It is still in an early stage of development and currently work in progress...
 
 ## Using Food Chain
 
-In order to start using Food Chain, you will need to have Python 3.7 installed on your machine and **RDFLib** (additional modules are listed in the "requirements.txt" file.
+In order to start using Food Chain, you will need to have **Python 3.7** installed on your machine and **RDFLib** (additional modules are listed in the "requirements.txt" file.
 Food Chain components offer some of the most common tasks performed on RDF Graphs, facilitating the creation and manipulation of RDF data in a computational design environment.
 
 ## Acknowledgments
