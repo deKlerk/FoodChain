@@ -1,0 +1,2 @@
+C:\Users\ruide\source\repos\FoodChain\FoodChain\obj\Debug\FoodChain.csprojAssemblyReference.cache
+C:\Users\ruide\source\repos\FoodChain\FoodChain\obj\Debug\FoodChain.csproj.CoreCompileInputs.cache

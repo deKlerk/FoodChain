@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Python.Runtime, Version=2.5.1.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\pythonnet_py37_win.2.5.1.1\lib\net40\Python.Runtime.dll</HintPath>
     </Reference>
