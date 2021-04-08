@@ -1,6 +1,7 @@
 ﻿using Python.Runtime;
 using Grasshopper.Kernel;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -24,7 +25,7 @@ namespace FoodChain
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public Parser()
+        public Serializer()
           : base("Graph Serializer", "Serialize",
               "Serializes a Graph to a fortmat of choice",
               "Food Chain", "Create")
@@ -48,7 +49,7 @@ namespace FoodChain
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Graph", "G", "RDFLib Graph to serialize", GH_ParamAccess.item);
-            pManager.AddGenericParameter("File", "F", "File path to serialize Graph onto", GH_ParamAccess.item);
+            pManager.AddTextParameter("File", "F", "File path to serialize Graph onto", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -68,23 +69,32 @@ namespace FoodChain
         {
             using (Py.GIL())
             {
-                string uri = null;
-                if (!DA.GetData(0, ref uri)) { return; }
-
-
                 dynamic rdflib = Py.Import("rdflib");   // Imports RDFLib
                 //dynamic SPARQLWrapper = Py.Import("SPARQLWrapper");  // Imports SPARQLWrapper
                 //dynamic json = Py.Import("json");                    // Imports Json
+
                 dynamic g = rdflib.graph.Graph();       // Creates an empty RDFLib Graph
+                string fpath = null;
 
-                string outtext = null;
+                if (!DA.GetData(0, ref g)) { }
+                if (!DA.GetData(1, ref fpath)) { }
 
-                if (uri != null)
+                string outtext = null;  // Variable that will store the text with the serialization
+
+                try
                 {
-                    g.parse(uri);
-
                     outtext = Convert.ToString(g.serialize(Py.kw("format", outformat)).decode("utf-8"));
+
+                    if(fpath != null && outtext != null)
+                    {
+                        try
+                        {
+                            using (StreamWriter sw = File.CreateText(fpath)) { sw.Write(outtext); }
+                        }
+                        catch(Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }                        
+                    }                    
                 }
+                catch(Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }
 
                 DA.SetData(0, g);
                 DA.SetData(1, outtext);
@@ -160,7 +170,7 @@ namespace FoodChain
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("1fb69c8f-7580-46f5-b20b-23fb1e9e9e9d"); }
+            get { return new Guid("5e3f380a-da5e-418e-8b6b-ec6bb86a3de7"); }
         }
     }
 }

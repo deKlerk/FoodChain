@@ -75,7 +75,7 @@ namespace FoodChain
                 dynamic rdflib = Py.Import("rdflib");   // Imports RDFLib
                 //dynamic SPARQLWrapper = Py.Import("SPARQLWrapper");  // Imports SPARQLWrapper
                 //dynamic json = Py.Import("json");                    // Imports Json
-                dynamic g = rdflib.graph.Graph();       // Creates an empty RDFLib Graph
+                PyObject g = rdflib.graph.Graph();       // Creates an empty RDFLib Graph
 
                 string outtext = null;
 
