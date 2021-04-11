@@ -1,6 +1,7 @@
 ﻿using Python.Runtime;
 using Grasshopper.Kernel;
 using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -55,7 +56,7 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Graph", "G", "RDFLib Graph", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Graph", "G", "RDFLib Graph", GH_ParamAccess.item);   
             pManager.AddTextParameter("Text", "T", "Text rendering of the parsed RDFLib Graph", GH_ParamAccess.list);
         }
 
@@ -75,7 +76,7 @@ namespace FoodChain
                 dynamic rdflib = Py.Import("rdflib");   // Imports RDFLib
                 //dynamic SPARQLWrapper = Py.Import("SPARQLWrapper");  // Imports SPARQLWrapper
                 //dynamic json = Py.Import("json");                    // Imports Json
-                PyObject g = rdflib.graph.Graph();       // Creates an empty RDFLib Graph
+                dynamic g = rdflib.graph.Graph();       // Creates an empty RDFLib Graph
 
                 string outtext = null;
 
@@ -86,7 +87,8 @@ namespace FoodChain
                     outtext = Convert.ToString(g.serialize(Py.kw("format", outformat)).decode("utf-8"));
                 }
 
-                DA.SetData(0, g);
+                Type outGraph = g.GetType();  // Using Reflection to output RDFLib Graph
+                DA.SetData(0, outGraph);
                 DA.SetData(1, outtext);
             }
         }

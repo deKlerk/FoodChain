@@ -2,6 +2,7 @@
 using Grasshopper.Kernel;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -48,7 +49,7 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Graph", "G", "RDFLib Graph to serialize", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Graph", "G", "RDFLib Graph to serialize", GH_ParamAccess.item); 
             pManager.AddTextParameter("File", "F", "File path to serialize Graph onto", GH_ParamAccess.item);
         }
 
@@ -76,11 +77,11 @@ namespace FoodChain
                 dynamic g = rdflib.graph.Graph();       // Creates an empty RDFLib Graph
                 string fpath = null;
 
-                if (!DA.GetData(0, ref g)) { }
-                if (!DA.GetData(1, ref fpath)) { }
+                if (!DA.GetData(0, ref g)) {  }
+                if (!DA.GetData(1, ref fpath)) {  }
 
                 string outtext = null;  // Variable that will store the text with the serialization
-
+                
                 try
                 {
                     outtext = Convert.ToString(g.serialize(Py.kw("format", outformat)).decode("utf-8"));
@@ -96,7 +97,8 @@ namespace FoodChain
                 }
                 catch(Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }
 
-                DA.SetData(0, g);
+                Type outGraph = g.GetType();  // Using Reflection to output RDFLib Graph
+                DA.SetData(0, outGraph);
                 DA.SetData(1, outtext);
             }
         }
