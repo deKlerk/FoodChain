@@ -15,7 +15,6 @@ namespace FoodChain
 {
     public class Serializer : GH_Component
     {
-        //private PyScope ps;
         private string outformat = "turtle";
         private Dictionary<string, bool> flags = new Dictionary<string, bool>();
 
@@ -31,11 +30,10 @@ namespace FoodChain
               "Serializes a Graph to a fortmat of choice",
               "Food Chain", "Create")
         {
-            Environment.SetEnvironmentVariable("PATH", @"C:\Python37", EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("PYTHONHOME", @"C:\Python37", EnvironmentVariableTarget.Process);
+            Environment.SetEnvironmentVariable("PYTHONNET_PYDLL", @"C:\Python37\", EnvironmentVariableTarget.Process);
+            Environment.SetEnvironmentVariable("PATH", @"C:\Python37\", EnvironmentVariableTarget.Process);
+            Environment.SetEnvironmentVariable("PYTHONHOME", @"C:\Python37\", EnvironmentVariableTarget.Process);
             Environment.SetEnvironmentVariable("PYTHONPATH", @"C:\Python37\Lib; C:\Python37\Lib\site-packages", EnvironmentVariableTarget.Process);
-
-            PythonEngine.Initialize();
 
             flags.Add("n3", false);
             flags.Add("turtle", true);
@@ -70,6 +68,10 @@ namespace FoodChain
         {
             using (Py.GIL())
             {
+                // Initialize Python Engine and create Scope
+                PythonEngine.Initialize();
+                PyScope ps = Py.CreateScope("GraphScope");
+
                 dynamic rdflib = Py.Import("rdflib");   // Imports RDFLib
                 //dynamic SPARQLWrapper = Py.Import("SPARQLWrapper");  // Imports SPARQLWrapper
                 //dynamic json = Py.Import("json");                    // Imports Json
@@ -81,10 +83,17 @@ namespace FoodChain
                 if (!DA.GetData(1, ref fpath)) {  }
 
                 string outtext = null;  // Variable that will store the text with the serialization
-                
+
                 try
                 {
-                    outtext = Convert.ToString(g.serialize(Py.kw("format", outformat)).decode("utf-8"));
+                    if(g.GetType() == rdflib.graph.Graph.GetType())
+                    {
+                        outtext = Convert.ToString(g.serialize(Py.kw("format", outformat)).decode("utf-8"));
+                    }
+                    else
+                    {
+                        this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"Graph input is not of type RDFLib Graph... instead, it is of type {g.GetType()}.");
+                    }
 
                     if(fpath != null && outtext != null)
                     {
@@ -97,8 +106,6 @@ namespace FoodChain
                 }
                 catch(Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }
 
-                Type outGraph = g.GetType();  // Using Reflection to output RDFLib Graph
-                DA.SetData(0, outGraph);
                 DA.SetData(1, outtext);
             }
         }
@@ -110,7 +117,7 @@ namespace FoodChain
         {
             base.AppendAdditionalMenuItems(menu);
 
-            ToolStripMenuItem n3 = Menu_AppendItem(menu, "N3", PickFormat, true);
+            ToolStripMenuItem n3 = Menu_AppendItem(menu, "Notation 3", PickFormat, true);
             n3.Tag = "n3";
             n3.Checked = flags[n3.Tag.ToString()];
             n3.ToolTipText = $"Parse in {n3.Text} format";

@@ -30,11 +30,10 @@ namespace FoodChain
               "Parses a Graph given an URI",
               "Food Chain", "Inspect")
         {
+            Environment.SetEnvironmentVariable("PYTHONNET_PYDLL", @"C:\Python37\", EnvironmentVariableTarget.Process);
             Environment.SetEnvironmentVariable("PATH", @"C:\Python37", EnvironmentVariableTarget.Process);
             Environment.SetEnvironmentVariable("PYTHONHOME", @"C:\Python37", EnvironmentVariableTarget.Process);
             Environment.SetEnvironmentVariable("PYTHONPATH", @"C:\Python37\Lib; C:\Python37\Lib\site-packages", EnvironmentVariableTarget.Process);
-
-            PythonEngine.Initialize();
 
             flags.Add("n3", false);
             flags.Add("turtle", true);
@@ -69,6 +68,10 @@ namespace FoodChain
         {
             using (Py.GIL())
             {
+                // Initialize Python Engine and create Scope
+                PythonEngine.Initialize(); 
+                PyScope ps = Py.CreateScope("GraphScope");
+
                 string uri = null;
                 if (!DA.GetData(0, ref uri)) { return; }
 
@@ -87,8 +90,20 @@ namespace FoodChain
                     outtext = Convert.ToString(g.serialize(Py.kw("format", outformat)).decode("utf-8"));
                 }
 
-                Type outGraph = g.GetType();  // Using Reflection to output RDFLib Graph
-                DA.SetData(0, outGraph);
+
+                Type gType = g.GetType();
+                FieldInfo[] fields = gType.GetFields();
+                String content = "Type: " + gType.ToString() + "\n" + "number of fields: " + fields.Length.ToString() + "\n";
+
+
+                foreach(var field in fields)
+                {
+                    content += field.Name + "\n";
+                }
+
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, $"fields: {content}");
+
+                DA.SetData(0, g);
                 DA.SetData(1, outtext);
             }
         }
@@ -100,7 +115,7 @@ namespace FoodChain
         {
             base.AppendAdditionalMenuItems(menu);
 
-            ToolStripMenuItem n3 = Menu_AppendItem(menu, "N3", PickFormat, true);
+            ToolStripMenuItem n3 = Menu_AppendItem(menu, "Notation 3", PickFormat, true);
             n3.Tag = "n3";
             n3.Checked = flags[n3.Tag.ToString()];
             n3.ToolTipText = $"Parse in {n3.Text} format";
