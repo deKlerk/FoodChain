@@ -11,29 +11,22 @@ namespace FoodChain.Goo
 {
     public class GHGraph : GH_Goo<Graph>
     {
-
         public override bool IsValid => throw new NotImplementedException();
-
         public override string TypeName { get; } = "GHGraph";
-
         public override string TypeDescription { get; } = "GH representation of a RDFLib Graph";
-
-        public override IGH_Goo Duplicate()
-        {
-            return new GHGraph();
-        }
-
-        public override string ToString()
-        {
-            throw new NotImplementedException();
-        }
+        public override IGH_Goo Duplicate() { return new GHGraph(); }
+        public override string ToString() { throw new NotImplementedException(); }
     }
 
     public class Graph
     {
         public List<String> Prefixes { get; set; }
         public List<String> NSpaces { get; set; }
-
+        public Graph() 
+        { 
+            this.Prefixes = null;
+            this.NSpaces = null;
+        }
         public Graph(List<String> pref, List<String> nsp)
         {
             this.Prefixes = pref;

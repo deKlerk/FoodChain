@@ -13,7 +13,7 @@ namespace FoodChain
         /// Initializes a new instance of the CreateGraph class.
         /// </summary>
         public CreateGraph()
-          : base("CreateGraph", "Graph",
+          : base("Create Graph", "Graph",
               "Creates an RDFLib Graph",
               "Food Chain", "Create")
         {
@@ -85,7 +85,6 @@ namespace FoodChain
                         this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, $"Each namespace must have a unique prefix assigned to it. you have {np} prefixes and {nn} namespace URIs...");
                     }
                 }
-
 
                 string outGraph = Convert.ToString(g.serialize(Py.kw("format", "n3")).decode("utf-8"));
                 DA.SetData(0, outGraph);
