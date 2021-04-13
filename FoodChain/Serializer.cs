@@ -70,7 +70,7 @@ namespace FoodChain
             {
                 // Initialize Python Engine and create Scope
                 PythonEngine.Initialize();
-                PyScope ps = Py.CreateScope("GraphScope");
+                PyScope ps = Py.CreateScope();
 
                 dynamic rdflib = Py.Import("rdflib");   // Imports RDFLib
                 //dynamic SPARQLWrapper = Py.Import("SPARQLWrapper");  // Imports SPARQLWrapper
