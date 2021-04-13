@@ -3,6 +3,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using FoodChain.Goo;
 
 namespace FoodChain
 {
@@ -41,6 +42,7 @@ namespace FoodChain
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("Graph", "G", "RDFLib Graph (in n3 format)", GH_ParamAccess.item);
+            //pManager.AddParameter;
         }
 
         /// <summary>

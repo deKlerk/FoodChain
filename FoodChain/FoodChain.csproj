@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreateGraph.cs" />
+    <Compile Include="GHParamGraph.cs" />
     <Compile Include="Goo\GHGraph.cs" />
     <Compile Include="Serializer.cs" />
     <Compile Include="Parser.cs" />
