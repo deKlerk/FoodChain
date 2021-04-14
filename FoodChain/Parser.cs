@@ -77,11 +77,6 @@ namespace FoodChain
                 string uri = null;
                 if (!DA.GetData(0, ref uri)) { return; }
 
-                dynamic rdflib = Py.Import("rdflib");   // Imports RDFLib
-                //dynamic SPARQLWrapper = Py.Import("SPARQLWrapper");  // Imports SPARQLWrapper
-                //dynamic json = Py.Import("json");                    // Imports Json
-                dynamic g = rdflib.graph.Graph();       // Creates an empty RDFLib Graph
-
                 string outtext = null;
                 Graph graph = new Graph();
 
