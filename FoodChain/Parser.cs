@@ -4,6 +4,8 @@ using System;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using FoodChain.Goo;
+using FoodChain.Parameters;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -54,8 +56,8 @@ namespace FoodChain
         /// Registers all the output parameters for this component.
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
-        {
-            pManager.AddGenericParameter("Graph", "G", "RDFLib Graph", GH_ParamAccess.item);   
+        {  
+            pManager.AddParameter(new GHParamGraph(), "GH Graph", "Graph", "RDFLib Graph in GH format", GH_ParamAccess.item);
             pManager.AddTextParameter("Text", "T", "Text rendering of the parsed RDFLib Graph", GH_ParamAccess.list);
         }
 
@@ -90,20 +92,20 @@ namespace FoodChain
                     outtext = Convert.ToString(g.serialize(Py.kw("format", outformat)).decode("utf-8"));
                 }
 
+                Graph graph = new Graph();
 
-                Type gType = g.GetType();
-                FieldInfo[] fields = gType.GetFields();
-                String content = "Type: " + gType.ToString() + "\n" + "number of fields: " + fields.Length.ToString() + "\n";
+                dynamic NSpaces = g.namespaces();
 
-
-                foreach(var field in fields)
+                foreach(dynamic vals in NSpaces)
                 {
-                    content += field.Name + "\n";
+                    try
+                    {
+                        graph.Namespaces.Add(vals[0], vals[1]);
+                    }
+                    catch(Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }                    
                 }
 
-                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, $"fields: {content}");
-
-                DA.SetData(0, g);
+                DA.SetData(0, new GHGraph(graph));
                 DA.SetData(1, outtext);
             }
         }

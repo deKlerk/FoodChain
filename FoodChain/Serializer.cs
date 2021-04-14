@@ -5,6 +5,8 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using FoodChain.Goo;
+using FoodChain.Parameters;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -47,8 +49,10 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Graph", "G", "RDFLib Graph to serialize", GH_ParamAccess.item); 
+            pManager.AddParameter(new GHParamGraph(), "Graph", "G", "RDFLib Graph to serialize", GH_ParamAccess.item);
             pManager.AddTextParameter("File", "F", "File path to serialize Graph onto", GH_ParamAccess.item);
+
+            pManager[1].Optional = true;    // Users may serialize Graphs to text
         }
 
         /// <summary>
@@ -76,13 +80,24 @@ namespace FoodChain
                 //dynamic SPARQLWrapper = Py.Import("SPARQLWrapper");  // Imports SPARQLWrapper
                 //dynamic json = Py.Import("json");                    // Imports Json
 
-                dynamic g = rdflib.graph.Graph();       // Creates an empty RDFLib Graph
+                var gIn = new GHGraph();
                 string fpath = null;
 
-                if (!DA.GetData(0, ref g)) {  }
-                if (!DA.GetData(1, ref fpath)) {  }
+                if (!DA.GetData(0, ref gIn)) { return; }
+                DA.GetData(1, ref fpath);
 
+                dynamic g = rdflib.graph.Graph();       // Creates an empty RDFLib Graph
                 string outtext = null;  // Variable that will store the text with the serialization
+
+                var gTemp = new Graph(gIn.Value.Namespaces, gIn.Value.Triples);
+                List<String> prefs = new List<string>(gTemp.Namespaces.Keys);
+
+                for(int i=0; i < prefs.Count; i++)
+                {
+                    try { g.bind(prefs[i], gTemp.Namespaces[prefs[i]]); }
+                    catch(Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, e.Message); }
+                }
+
 
                 try
                 {
@@ -97,16 +112,13 @@ namespace FoodChain
 
                     if(fpath != null && outtext != null)
                     {
-                        try
-                        {
-                            using (StreamWriter sw = File.CreateText(fpath)) { sw.Write(outtext); }
-                        }
+                        try { using (StreamWriter sw = File.CreateText(fpath)) { sw.Write(outtext); } }
                         catch(Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }                        
                     }                    
                 }
                 catch(Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }
 
-                DA.SetData(1, outtext);
+                DA.SetData(0, outtext);
             }
         }
 

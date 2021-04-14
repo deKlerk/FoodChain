@@ -108,7 +108,7 @@ namespace FoodChain
 
                 string outGraph = Convert.ToString(g.serialize(Py.kw("format", "n3")).decode("utf-8"));
                 DA.SetData(0, outGraph);
-                DA.SetData(1, outGHGraph);
+                DA.SetData(1, new GHGraph(outGHGraph));
             }
         }
 

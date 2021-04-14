@@ -18,7 +18,7 @@ namespace FoodChain.Goo
         public override string TypeName { get; } = "GHGraph";
         public override string TypeDescription { get; } = "GH representation of a RDFLib Graph";
         public override IGH_Goo Duplicate() { return new GHGraph(this); }
-        public override string ToString() { throw new NotImplementedException(); }
+        public override string ToString() { return this.Value.ToString(); }
         public override object ScriptVariable() { return Value; }
     }
 
@@ -26,9 +26,10 @@ namespace FoodChain.Goo
     {
         public Dictionary<String, Uri> Namespaces { get; set; }
         public List<String> Triples { get; set; }
+
         public Graph() 
         {
-            this.Namespaces = null;
+            this.Namespaces = new Dictionary<string, Uri>(); ;
             this.Triples = null;
         }
         public Graph(List<String> pref, List<Uri> nsp, List<String> trp)
@@ -36,17 +37,19 @@ namespace FoodChain.Goo
             int pCount = pref.Count;
             int nCount = nsp.Count;
 
+            if (this.Namespaces == null) { this.Namespaces = new Dictionary<string, Uri>(); }
+
             if (pCount == nCount)
             {
                 for (int i = 0; i < pCount; i++)
                 {
-                    if (this.Namespaces.ContainsKey(pref[i]))
+                    if (!this.Namespaces.ContainsKey(pref[i]))
                     {
-                        throw new Exception($"The prefix '{pref[i]}' already exists and is associated with {this.Namespaces[pref[i]]} namespace. ");
+                        this.Namespaces.Add(pref[i], nsp[i]);
                     }
                     else 
                     {
-                        this.Namespaces.Add(pref[i], nsp[i]);
+                        throw new Exception($"The prefix '{pref[i]}' already exists and is associated with {this.Namespaces[pref[i]]} namespace. ");
                     }
                 }
             }
