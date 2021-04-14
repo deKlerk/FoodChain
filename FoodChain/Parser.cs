@@ -47,7 +47,7 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("Uri", "U", "URI of RDF data to parse", GH_ParamAccess.item);
+            pManager.AddTextParameter("URI", "U", "URI of RDF data to parse", GH_ParamAccess.item);
         }
 
         /// <summary>

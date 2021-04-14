@@ -20,17 +20,28 @@ namespace FoodChain.Goo
 
     public class Graph
     {
-        public List<String> Prefixes { get; set; }
-        public List<String> NSpaces { get; set; }
+        public Dictionary<String, String> Namespaces { get; set; }
+        public List<String> Triples { get; set; }
         public Graph() 
-        { 
-            this.Prefixes = null;
-            this.NSpaces = null;
-        }
-        public Graph(List<String> pref, List<String> nsp)
         {
-            this.Prefixes = pref;
-            this.NSpaces = nsp;
+            this.Namespaces = null;
+            this.Triples = null;
+        }
+        public Graph(List<String> pref, List<String> nsp, List<String> trp)
+        {
+            int pCount = pref.Count;
+            int nCount = nsp.Count;
+
+            if (pCount == nCount)
+            {
+                for (int i = 0; i < pCount; i++)
+                {
+                    this.Namespaces.Add(pref[i], nsp[i]);
+                }
+            }
+            else { throw new Exception($"There must be the same amount of prefixes and namespaces... there are currently {pCount} prefixes and {nCount} namespaces."); }
+
+            this.Triples = trp;
         }
     }
 }
