@@ -4,6 +4,7 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using FoodChain.Goo;
+using FoodChain.Parameters;
 
 namespace FoodChain
 {
@@ -30,10 +31,12 @@ namespace FoodChain
         {
             pManager.AddTextParameter("Prefix", "Pr", "Prefixes for the namespaces", GH_ParamAccess.list);
             pManager.AddTextParameter("Namespace", "NS", "URI of the namespaces", GH_ParamAccess.list);
+            pManager.AddTextParameter("Triples", "T", "RDFLib Triples to add", GH_ParamAccess.list);
             
             // set prefix and namespace inputs as optional
             pManager[0].Optional = true;
             pManager[1].Optional = true;
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -42,7 +45,7 @@ namespace FoodChain
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("Graph", "G", "RDFLib Graph (in n3 format)", GH_ParamAccess.item);
-            //pManager.AddParameter;
+            pManager.AddParameter(new GHParamGraph(), "GH Graph", "Graph", "RDFLib Graph in GH format", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -61,11 +64,13 @@ namespace FoodChain
                 dynamic g = rdflib.graph.Graph();       // Creates an empty RDFLib Graph
 
                 // Register component inputs
-                List<String> prefixes = new List<string>();
-                List<String> nspaces = new List<string>();
+                var prefixes = new List<string>();
+                var nspaces = new List<string>();
+                var triples = new List<String>();
 
-                if (!DA.GetDataList(0, prefixes)) return;
-                if (!DA.GetDataList(1, nspaces)) return;
+                DA.GetDataList(0, prefixes);
+                DA.GetDataList(1, nspaces);
+                DA.GetDataList(2, triples);
 
                 // Check if the amount of prefixes is the same as the amount of namespaces
                 int np = prefixes.Count;
@@ -86,8 +91,24 @@ namespace FoodChain
                     }
                 }
 
+                List<Uri> uris = new List<Uri>();
+                foreach (String ns in nspaces)
+                {
+                    try
+                    {
+                        uris.Add(new Uri(ns));
+                    }
+                    catch(Exception e)
+                    {
+                        this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message);
+                    }
+                }
+
+                Graph outGHGraph = new Graph(prefixes, uris, triples);
+
                 string outGraph = Convert.ToString(g.serialize(Py.kw("format", "n3")).decode("utf-8"));
                 DA.SetData(0, outGraph);
+                DA.SetData(1, outGHGraph);
             }
         }
 
