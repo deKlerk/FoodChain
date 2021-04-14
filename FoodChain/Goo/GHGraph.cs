@@ -11,10 +11,13 @@ namespace FoodChain.Goo
 {
     public class GHGraph : GH_Goo<Graph>
     {
+        public GHGraph() { this.Value = null; }
+        public GHGraph(GHGraph goo) { this.Value = goo.Value; }
+        public GHGraph(Graph native) { this.Value = native; }
         public override bool IsValid => throw new NotImplementedException();
         public override string TypeName { get; } = "GHGraph";
         public override string TypeDescription { get; } = "GH representation of a RDFLib Graph";
-        public override IGH_Goo Duplicate() { return new GHGraph(); }
+        public override IGH_Goo Duplicate() { return new GHGraph(this); }
         public override string ToString() { throw new NotImplementedException(); }
     }
 
