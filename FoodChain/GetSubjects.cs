@@ -25,6 +25,11 @@ namespace FoodChain
         {
             pManager.AddGenericParameter("Scope", "s", "scope", GH_ParamAccess.item);
             pManager.AddTextParameter("Graph Name", "GN", "Name of the RDFLib Graph", GH_ParamAccess.item);
+            pManager.AddTextParameter("Predicate", "Prd", "Predicate to search againts", GH_ParamAccess.item);
+            pManager.AddTextParameter("Object", "Obj", "Object to search againts", GH_ParamAccess.item);
+
+            pManager[2].Optional = true;
+            pManager[3].Optional = true;
         }
 
         /// <summary>
@@ -46,13 +51,26 @@ namespace FoodChain
             {
                 PyScope psIn = Py.CreateScope();
                 String gName = null;
+                String pred = "None";
+                String obj = "None";
 
                 if (!DA.GetData(0, ref psIn)) { return; }
                 if (!DA.GetData(1, ref gName)) { return; }
+                
+                if (!DA.GetData(2, ref pred)) { }
+                else { DA.GetData(2, ref pred); }
 
+                if (!DA.GetData(3, ref obj)) { }
+                else { DA.GetData(3, ref obj); }
 
+                psIn.Exec($"try: {gName}\n" +
+                          $"except NameError: {gName} = Graph()");
+                psIn.Exec($"{gName}Sbj = set({gName}.subjects({pred}, {obj}))");
+
+                dynamic subjects = psIn.Get($"{gName}Sbj");
 
                 DA.SetData(0, psIn);
+                DA.SetDataList(1, subjects);
             }
         }
 
