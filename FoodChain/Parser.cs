@@ -72,11 +72,10 @@ namespace FoodChain
             {
                 // Initialize Python Engine and create Scope
                 PythonEngine.Initialize(); 
-                PyScope ps = Py.CreateScope("GraphScope");
+                PyScope ps = Py.CreateScope();
 
                 string uri = null;
                 if (!DA.GetData(0, ref uri)) { return; }
-
 
                 dynamic rdflib = Py.Import("rdflib");   // Imports RDFLib
                 //dynamic SPARQLWrapper = Py.Import("SPARQLWrapper");  // Imports SPARQLWrapper
@@ -84,25 +83,50 @@ namespace FoodChain
                 dynamic g = rdflib.graph.Graph();       // Creates an empty RDFLib Graph
 
                 string outtext = null;
+                Graph graph = new Graph();
 
                 if (uri != null)
                 {
                     g.parse(uri);
 
-                    outtext = Convert.ToString(g.serialize(Py.kw("format", outformat)).decode("utf-8"));
-                }
+                    ps.Exec("from rdflib.graph import Graph");
+                    ps.Exec("g = Graph()");
+                    ps.Exec($"g.parse('{uri}')");
+                    ps.Exec($"txt = g.serialize(format='{outformat}').decode('utf-8')");
 
-                Graph graph = new Graph();
+                    outtext = ps.Get("txt").ToString();
 
-                dynamic NSpaces = g.namespaces();
+                    //ps.Exec("ns = {k: str(v) for (k,v) in g.namespaces()}");
+                    ps.Exec("ks = [k for (k,v) in g.namespaces()]");
+                    ps.Exec("nsp = [str(v) for (k,v) in g.namespaces()]");
 
-                foreach(dynamic vals in NSpaces)
-                {
-                    try
+                    dynamic ks = ps.Get("ks");
+                    dynamic nsp = ps.Get("nsp");
+
+                    int i = 0;
+                    foreach(String k in ks)
                     {
-                        graph.Namespaces.Add(vals[0], vals[1]);
+                        try
+                        {
+                            graph.Namespaces.Add(ks[i].ToString(), nsp[i]);
+                            i++;
+                        }
+                        catch (Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }
                     }
-                    catch(Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }                    
+
+                    //dynamic NSpaces = ps.Get("ns");
+                    //String msg = null;
+                    //foreach (dynamic vals in NSpaces)
+                    //{
+                        //try
+                        //{
+                            //graph.Namespaces.Add(vals[0], vals[1]);
+                            //msg += vals[1] + "\n";
+                        //}
+                        //catch (Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }
+                    //}
+
+                    //this.AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, NSpaces.GetType().ToString());
                 }
 
                 DA.SetData(0, new GHGraph(graph));

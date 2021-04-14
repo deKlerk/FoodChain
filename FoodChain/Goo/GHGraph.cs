@@ -45,7 +45,7 @@ namespace FoodChain.Goo
                 {
                     if (!this.Namespaces.ContainsKey(pref[i]))
                     {
-                        this.Namespaces.Add(pref[i], nsp[i]);
+                        this.Namespaces.Add(pref[i], new Uri(nsp[i].ToString()));
                     }
                     else 
                     {
