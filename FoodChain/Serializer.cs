@@ -41,7 +41,7 @@ namespace FoodChain
             flags.Add("turtle", true);
             flags.Add("nt", false);
             flags.Add("xml", false);
-            //flags.Add("json-ld", false);
+            flags.Add("json-ld", false);
         }
 
         /// <summary>
