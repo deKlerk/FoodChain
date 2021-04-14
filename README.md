@@ -11,4 +11,4 @@ Food Chain components offer some of the most common tasks performed on RDF Graph
 
 ## Acknowledgments
 
-**Food Chain** is part of ongoing research by Rui de Klerk, made possible with the financial support from the Portuguese Foundation for Science and Technology (FCT) through the FCT Doctoral Grant SFRH/BD/131386/2017.
+**Food Chain** is part of ongoing research by Rui de Klerk and was made possible with the financial support from the Portuguese Foundation for Science and Technology (FCT) through the FCT Doctoral Grant SFRH/BD/131386/2017.
