@@ -41,7 +41,7 @@ namespace FoodChain
             flags.Add("turtle", true);
             flags.Add("nt", false);
             flags.Add("xml", false);
-            //flags.Add("json-ld", false);
+            flags.Add("json-ld", false);
         }
 
         /// <summary>
@@ -87,46 +87,34 @@ namespace FoodChain
 
                 if (uri != null)
                 {
-                    g.parse(uri);
-
-                    ps.Exec("from rdflib.graph import Graph");
+                    ps.Exec("from rdflib.graph import Graph, plugin");
+                    ps.Exec("from rdflib.serializer import Serializer");
+                    ps.Exec("import SPARQLWrapper");
+                    ps.Exec("import json");
                     ps.Exec("g = Graph()");
                     ps.Exec($"g.parse('{uri}')");
                     ps.Exec($"txt = g.serialize(format='{outformat}').decode('utf-8')");
 
-                    outtext = ps.Get("txt").ToString();
+                    outtext = ps.Get("txt").ToString();     // Get Serialization to output
 
-                    //ps.Exec("ns = {k: str(v) for (k,v) in g.namespaces()}");
-                    ps.Exec("ks = [k for (k,v) in g.namespaces()]");
+                    ps.Exec("ks = [str(k) for (k,v) in g.namespaces()]");
                     ps.Exec("nsp = [str(v) for (k,v) in g.namespaces()]");
 
                     dynamic ks = ps.Get("ks");
                     dynamic nsp = ps.Get("nsp");
 
                     int i = 0;
-                    foreach(String k in ks)
+                    foreach(String k in ks)     // Get graph namespaces and prefixes
                     {
                         try
                         {
-                            graph.Namespaces.Add(ks[i].ToString(), nsp[i]);
+                            String pref = ks[i].ToString();
+                            Uri nspace = new Uri(nsp[i].ToString(), UriKind.RelativeOrAbsolute);
+                            graph.Namespaces.Add(pref, nspace);
                             i++;
                         }
                         catch (Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }
                     }
-
-                    //dynamic NSpaces = ps.Get("ns");
-                    //String msg = null;
-                    //foreach (dynamic vals in NSpaces)
-                    //{
-                        //try
-                        //{
-                            //graph.Namespaces.Add(vals[0], vals[1]);
-                            //msg += vals[1] + "\n";
-                        //}
-                        //catch (Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }
-                    //}
-
-                    //this.AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, NSpaces.GetType().ToString());
                 }
 
                 DA.SetData(0, new GHGraph(graph));
@@ -162,10 +150,10 @@ namespace FoodChain
             rdfxml.Checked = flags[rdfxml.Tag.ToString()];
             rdfxml.ToolTipText = $"Parse in {rdfxml.Text} format";
 
-            //ToolStripMenuItem jsonld = Menu_AppendItem(menu, "JSON-LD", PickFormat, true);
-            //jsonld.Tag = "json-ld";
-            //jsonld.Checked = flags[jsonld.Tag.ToString()];
-            //jsonld.ToolTipText = $"Parse in {jsonld.Text} format";
+            ToolStripMenuItem jsonld = Menu_AppendItem(menu, "JSON-LD", PickFormat, true);
+            jsonld.Tag = "json-ld";
+            jsonld.Checked = flags[jsonld.Tag.ToString()];
+            jsonld.ToolTipText = $"Parse in {jsonld.Text} format";
 
         }
 
