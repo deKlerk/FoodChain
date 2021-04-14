@@ -43,5 +43,10 @@ namespace FoodChain.Goo
 
             this.Triples = trp;
         }
+        public Graph(Dictionary<String, String> nsp, List<String> trp)
+        {
+            this.Namespaces = nsp;
+            this.Triples = trp;
+        }
     }
 }
