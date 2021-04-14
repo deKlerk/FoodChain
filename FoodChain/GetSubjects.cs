@@ -6,20 +6,16 @@ using System.Collections.Generic;
 
 namespace FoodChain
 {
-    public class DemoSCOPE02 : GH_Component
+    public class GetSubjects : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the DemoSCOPE02 class.
+        /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public DemoSCOPE02()
-          : base("DemoSCOPE02", "Nickname",
-              "Description",
-              "Food Chain", "Scope")
+        public GetSubjects()
+          : base("Get Subjects", "GSubjects",
+              "Returns the subjects from an RDFLib Graph",
+              "Food Chain", "Query")
         {
-            Environment.SetEnvironmentVariable("PYTHONNET_PYDLL", @"C:\Python37\", EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("PATH", @"C:\Python37", EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("PYTHONHOME", @"C:\Python37", EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("PYTHONPATH", @"C:\Python37\Lib; C:\Python37\Lib\site-packages", EnvironmentVariableTarget.Process);
         }
 
         /// <summary>
@@ -28,6 +24,7 @@ namespace FoodChain
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Scope", "s", "scope", GH_ParamAccess.item);
+            pManager.AddTextParameter("Graph Name", "GN", "Name of the RDFLib Graph", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -35,8 +32,6 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("Txt", "t", "demo", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Scope", "s", "scope", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -45,18 +40,6 @@ namespace FoodChain
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            using (Py.GIL())
-            {
-                PythonEngine.Initialize();
-                PyScope psIn = Py.CreateScope();
-
-                if (!DA.GetData(0, ref psIn)) { return; }
-
-                dynamic outTxt = psIn.Get("txt");
-
-                DA.SetData(0, outTxt.ToString());
-                DA.SetData(1, psIn);
-            }
         }
 
         /// <summary>
@@ -77,7 +60,7 @@ namespace FoodChain
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("6e9454eb-e4e3-41ce-83c1-4db0e07f8778"); }
+            get { return new Guid("42d1b3f8-2f96-4181-a085-aee1f0d0d22b"); }
         }
     }
 }

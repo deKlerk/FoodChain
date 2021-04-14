@@ -62,7 +62,8 @@
   <ItemGroup>
     <Compile Include="CreateGraph.cs" />
     <Compile Include="CreateScope.cs" />
-    <Compile Include="DemoSCOPE02.cs" />
+    <Compile Include="GetSubjects.cs" />
+    <Compile Include="ParseGraph.cs" />
     <Compile Include="Parameters\GHParamGraph.cs" />
     <Compile Include="Goo\GHGraph.cs" />
     <Compile Include="Serializer.cs" />

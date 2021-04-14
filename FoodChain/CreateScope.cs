@@ -36,7 +36,7 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Scope", "s", "scope", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Scope", "s", "Python.NET scope", GH_ParamAccess.item);
         }
 
         /// <summary>
