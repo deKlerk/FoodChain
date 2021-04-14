@@ -32,6 +32,8 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            pManager.AddGenericParameter("Scope", "s", "Python.NET scope", GH_ParamAccess.item);
+            pManager.AddTextParameter("Subjects", "Sbj", "Subject elements in a RDFLib Graph", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -40,6 +42,18 @@ namespace FoodChain
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            using (Py.GIL())
+            {
+                PyScope psIn = Py.CreateScope();
+                String gName = null;
+
+                if (!DA.GetData(0, ref psIn)) { return; }
+                if (!DA.GetData(1, ref gName)) { return; }
+
+
+
+                DA.SetData(0, psIn);
+            }
         }
 
         /// <summary>

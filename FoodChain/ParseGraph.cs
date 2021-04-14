@@ -54,7 +54,6 @@ namespace FoodChain
         {
             using (Py.GIL())
             {
-                //PythonEngine.Initialize();
                 PyScope psIn = Py.CreateScope();
                 String gName = null;
                 String uri = null;
