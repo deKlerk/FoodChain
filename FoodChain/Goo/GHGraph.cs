@@ -20,14 +20,14 @@ namespace FoodChain.Goo
 
     public class Graph
     {
-        public Dictionary<String, String> Namespaces { get; set; }
+        public Dictionary<String, Uri> Namespaces { get; set; }
         public List<String> Triples { get; set; }
         public Graph() 
         {
             this.Namespaces = null;
             this.Triples = null;
         }
-        public Graph(List<String> pref, List<String> nsp, List<String> trp)
+        public Graph(List<String> pref, List<Uri> nsp, List<String> trp)
         {
             int pCount = pref.Count;
             int nCount = nsp.Count;
@@ -36,14 +36,24 @@ namespace FoodChain.Goo
             {
                 for (int i = 0; i < pCount; i++)
                 {
-                    this.Namespaces.Add(pref[i], nsp[i]);
+                    if (this.Namespaces.ContainsKey(pref[i]))
+                    {
+                        throw new Exception($"The prefix '{pref[i]}' already exists and is associated with {this.Namespaces[pref[i]]} namespace. ");
+                    }
+                    else 
+                    {
+                        this.Namespaces.Add(pref[i], nsp[i]);
+                    }
                 }
             }
-            else { throw new Exception($"There must be the same amount of prefixes and namespaces... there are currently {pCount} prefixes and {nCount} namespaces."); }
+            else 
+            { 
+                throw new Exception($"There must be the same amount of prefixes and namespaces... there are currently {pCount} prefixes and {nCount} namespaces."); 
+            }
 
             this.Triples = trp;
         }
-        public Graph(Dictionary<String, String> nsp, List<String> trp)
+        public Graph(Dictionary<String, Uri> nsp, List<String> trp)
         {
             this.Namespaces = nsp;
             this.Triples = trp;
