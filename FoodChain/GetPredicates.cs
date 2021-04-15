@@ -65,7 +65,7 @@ namespace FoodChain
 
                 psIn.Exec($"try: {gName}\n" +
                           $"except NameError: {gName} = Graph()");
-                psIn.Exec($"{gName}Prd = set({gName}.subjects({subj}, {obj}))");
+                psIn.Exec($"{gName}Prd = set({gName}.predicates({subj}, {obj}))");
 
                 dynamic predicates = psIn.Get($"{gName}Prd");
 

@@ -65,7 +65,7 @@ namespace FoodChain
 
                 psIn.Exec($"try: {gName}\n" +
                           $"except NameError: {gName} = Graph()");
-                psIn.Exec($"{gName}Obj = set({gName}.subjects({subj}, {pred}))");
+                psIn.Exec($"{gName}Obj = set({gName}.objects({subj}, {pred}))");
 
                 dynamic objects = psIn.Get($"{gName}Obj");
 
