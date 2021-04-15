@@ -62,6 +62,8 @@
   <ItemGroup>
     <Compile Include="CreateGraph.cs" />
     <Compile Include="CreateScope.cs" />
+    <Compile Include="GetPredicates.cs" />
+    <Compile Include="GetObjects.cs" />
     <Compile Include="GetSubjects.cs" />
     <Compile Include="ParseGraph.cs" />
     <Compile Include="Parameters\GHParamGraph.cs" />

@@ -6,14 +6,14 @@ using System.Collections.Generic;
 
 namespace FoodChain
 {
-    public class GetSubjects : GH_Component
+    public class GetObjects : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public GetSubjects()
-          : base("Get Subjects", "GSubjects",
-              "Returns the subjects from an RDFLib Graph",
+        public GetObjects()
+          : base("Get Objects", "GObjects",
+              "Returns the objects from an RDFLib Graph",
               "Food Chain", "Query")
         {
         }
@@ -25,8 +25,8 @@ namespace FoodChain
         {
             pManager.AddGenericParameter("Scope", "s", "scope", GH_ParamAccess.item);
             pManager.AddTextParameter("Graph Name", "GN", "Name of the RDFLib Graph", GH_ParamAccess.item);
+            pManager.AddTextParameter("Subject", "Sbj", "Subject to search against", GH_ParamAccess.item);
             pManager.AddTextParameter("Predicate", "Prd", "Predicate to search against", GH_ParamAccess.item);
-            pManager.AddTextParameter("Object", "Obj", "Object to search against", GH_ParamAccess.item);
 
             pManager[2].Optional = true;
             pManager[3].Optional = true;
@@ -51,26 +51,26 @@ namespace FoodChain
             {
                 PyScope psIn = Py.CreateScope();
                 String gName = null;
+                String subj = "None";
                 String pred = "None";
-                String obj = "None";
 
                 if (!DA.GetData(0, ref psIn)) { return; }
                 if (!DA.GetData(1, ref gName)) { return; }
                 
-                if (!DA.GetData(2, ref pred)) { }
-                else { DA.GetData(2, ref pred); }
+                if (!DA.GetData(2, ref subj)) { }
+                else { DA.GetData(2, ref subj); }
 
-                if (!DA.GetData(3, ref obj)) { }
-                else { DA.GetData(3, ref obj); }
+                if (!DA.GetData(3, ref pred)) { }
+                else { DA.GetData(3, ref pred); }
 
                 psIn.Exec($"try: {gName}\n" +
                           $"except NameError: {gName} = Graph()");
-                psIn.Exec($"{gName}Sbj = set({gName}.subjects({pred}, {obj}))");
+                psIn.Exec($"{gName}Obj = set({gName}.subjects({subj}, {pred}))");
 
-                dynamic subjects = psIn.Get($"{gName}Sbj");
+                dynamic objects = psIn.Get($"{gName}Obj");
 
                 DA.SetData(0, psIn);
-                DA.SetDataList(1, subjects);
+                DA.SetDataList(1, objects);
             }
         }
 
@@ -92,7 +92,7 @@ namespace FoodChain
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("42d1b3f8-2f96-4181-a085-aee1f0d0d22b"); }
+            get { return new Guid("280c3316-acee-45d6-a169-a18b5cb78346"); }
         }
     }
 }

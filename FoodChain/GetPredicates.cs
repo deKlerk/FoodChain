@@ -6,14 +6,14 @@ using System.Collections.Generic;
 
 namespace FoodChain
 {
-    public class GetSubjects : GH_Component
+    public class GetPredicates : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public GetSubjects()
-          : base("Get Subjects", "GSubjects",
-              "Returns the subjects from an RDFLib Graph",
+        public GetPredicates()
+          : base("Get Predicates", "GPredicates",
+              "Returns the predicates from an RDFLib Graph",
               "Food Chain", "Query")
         {
         }
@@ -25,7 +25,7 @@ namespace FoodChain
         {
             pManager.AddGenericParameter("Scope", "s", "scope", GH_ParamAccess.item);
             pManager.AddTextParameter("Graph Name", "GN", "Name of the RDFLib Graph", GH_ParamAccess.item);
-            pManager.AddTextParameter("Predicate", "Prd", "Predicate to search against", GH_ParamAccess.item);
+            pManager.AddTextParameter("Subject", "Sbj", "Subject to search against", GH_ParamAccess.item);
             pManager.AddTextParameter("Object", "Obj", "Object to search against", GH_ParamAccess.item);
 
             pManager[2].Optional = true;
@@ -38,7 +38,7 @@ namespace FoodChain
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Scope", "s", "Python.NET scope", GH_ParamAccess.item);
-            pManager.AddTextParameter("Subjects", "Sbj", "Subject elements in a RDFLib Graph", GH_ParamAccess.list);
+            pManager.AddTextParameter("Predicates", "Pred", "Predicate elements in a RDFLib Graph", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -51,26 +51,26 @@ namespace FoodChain
             {
                 PyScope psIn = Py.CreateScope();
                 String gName = null;
-                String pred = "None";
+                String subj = "None";
                 String obj = "None";
 
                 if (!DA.GetData(0, ref psIn)) { return; }
                 if (!DA.GetData(1, ref gName)) { return; }
                 
-                if (!DA.GetData(2, ref pred)) { }
-                else { DA.GetData(2, ref pred); }
+                if (!DA.GetData(2, ref subj)) { }
+                else { DA.GetData(2, ref subj); }
 
                 if (!DA.GetData(3, ref obj)) { }
                 else { DA.GetData(3, ref obj); }
 
                 psIn.Exec($"try: {gName}\n" +
                           $"except NameError: {gName} = Graph()");
-                psIn.Exec($"{gName}Sbj = set({gName}.subjects({pred}, {obj}))");
+                psIn.Exec($"{gName}Prd = set({gName}.subjects({subj}, {obj}))");
 
-                dynamic subjects = psIn.Get($"{gName}Sbj");
+                dynamic predicates = psIn.Get($"{gName}Prd");
 
                 DA.SetData(0, psIn);
-                DA.SetDataList(1, subjects);
+                DA.SetDataList(1, predicates);
             }
         }
 
@@ -92,7 +92,7 @@ namespace FoodChain
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("42d1b3f8-2f96-4181-a085-aee1f0d0d22b"); }
+            get { return new Guid("f63f2c5d-58f5-4ca2-8ab5-942de6143b7a"); }
         }
     }
 }
