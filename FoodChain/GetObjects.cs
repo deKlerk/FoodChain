@@ -38,7 +38,7 @@ namespace FoodChain
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Scope", "s", "Python.NET scope", GH_ParamAccess.item);
-            pManager.AddTextParameter("Subjects", "Sbj", "Subject elements in a RDFLib Graph", GH_ParamAccess.list);
+            pManager.AddTextParameter("Objects", "Obj", "Object elements in a RDFLib Graph", GH_ParamAccess.list);
         }
 
         /// <summary>
