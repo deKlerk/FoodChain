@@ -4,6 +4,7 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using FoodChain.Settings;
+using FoodChain.Goo;
 
 namespace FoodChain
 {
