@@ -34,8 +34,7 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddParameter(new GHPScope(), "Scope", "S", "Python.NET scope", GH_ParamAccess.item);
-            //pManager.AddGenericParameter("Scope", "s", "scope", GH_ParamAccess.item);
+            pManager.AddParameter(new GHPScope(), "Scope", "Sc", "Python.NET scope", GH_ParamAccess.item);
             pManager.AddTextParameter("Graph Name", "GN", "Name of the RDFLib Graph", GH_ParamAccess.item);
             pManager.AddTextParameter("URI", "U", "Uri to parse", GH_ParamAccess.item);
         }
@@ -45,9 +44,8 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddParameter(new GHPScope(), "Scope", "S", "Python.NET scope", GH_ParamAccess.item);
-            //pManager.AddGenericParameter("Scope", "s", "Python.NET scope", GH_ParamAccess.item);
-            pManager.AddTextParameter("Txt", "t", "demo", GH_ParamAccess.item);
+            pManager.AddParameter(new GHPScope(), "Scope", "Sc", "Python.NET scope", GH_ParamAccess.item);
+            pManager.AddTextParameter("Text", "t", "demo", GH_ParamAccess.item);
         }
 
         /// <summary>

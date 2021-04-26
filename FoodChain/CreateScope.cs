@@ -28,7 +28,7 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("Name", "N", "Name of the scope.", GH_ParamAccess.item);
+            pManager.AddTextParameter("Name", "N", "Name of the Scope.", GH_ParamAccess.item);
             pManager[0].Optional = true;
         }
 
@@ -37,8 +37,7 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            //pManager.AddGenericParameter("Scope", "s", "Python.NET scope", GH_ParamAccess.item);
-            pManager.AddParameter(new GHPScope(), "Scope", "S", "Python.NET scope", GH_ParamAccess.item);
+            pManager.AddParameter(new GHPScope(), "Scope", "Sc", "Python.NET scope", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -66,10 +65,9 @@ namespace FoodChain
                     ps.Exec("import SPARQLWrapper");
                     ps.Exec("import json");
 
-                    //DA.SetData(0, ps);
-
                     Scope outscope = new Scope(sName, ps);
                     GHScope outGHScope = new GHScope(outscope);
+
                     DA.SetData(0, outGHScope);
                 }
                 catch(Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }   

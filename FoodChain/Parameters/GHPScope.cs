@@ -12,7 +12,7 @@ namespace FoodChain.Parameters
 {
     public class GHPScope : GH_Param<GHScope>
     {
-        public GHPScope() : base("GH Scope", "Scope",
+        public GHPScope() : base("Scope", "Sc",
               "Python.NET Scope",
               "Food Chain", "Parameters", GH_ParamAccess.item) { }
 
