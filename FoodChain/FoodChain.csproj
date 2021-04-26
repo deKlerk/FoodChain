@@ -65,6 +65,8 @@
     <Compile Include="GetPredicates.cs" />
     <Compile Include="GetObjects.cs" />
     <Compile Include="GetSubjects.cs" />
+    <Compile Include="Goo\GHScope.cs" />
+    <Compile Include="Parameters\GHPScope.cs" />
     <Compile Include="ParseGraph.cs" />
     <Compile Include="Parameters\GHParamGraph.cs" />
     <Compile Include="Goo\GHGraph.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="Parser.cs" />
     <Compile Include="FoodChainInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\Config.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

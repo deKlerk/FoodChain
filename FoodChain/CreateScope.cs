@@ -3,6 +3,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using FoodChain.Settings;
 
 namespace FoodChain
 {
@@ -16,10 +17,8 @@ namespace FoodChain
               "Creates a new scope for RDFLib to run in and imports its main modules.",
               "Food Chain", "Scope")
         {
-            Environment.SetEnvironmentVariable("PYTHONNET_PYDLL", @"C:\Python37\", EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("PATH", @"C:\Python37", EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("PYTHONHOME", @"C:\Python37", EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("PYTHONPATH", @"C:\Python37\Lib; C:\Python37\Lib\site-packages", EnvironmentVariableTarget.Process);
+            Config cf = new Config();
+            cf.Setup();
         }
 
         /// <summary>
