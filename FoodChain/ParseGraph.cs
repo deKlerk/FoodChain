@@ -4,6 +4,8 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using FoodChain.Goo;
+using FoodChain.Parameters;
 
 namespace FoodChain
 {
@@ -32,7 +34,8 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Scope", "s", "scope", GH_ParamAccess.item);
+            pManager.AddParameter(new GHPScope(), "Scope", "S", "Python.NET scope", GH_ParamAccess.item);
+            //pManager.AddGenericParameter("Scope", "s", "scope", GH_ParamAccess.item);
             pManager.AddTextParameter("Graph Name", "GN", "Name of the RDFLib Graph", GH_ParamAccess.item);
             pManager.AddTextParameter("URI", "U", "Uri to parse", GH_ParamAccess.item);
         }
@@ -42,7 +45,8 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Scope", "s", "Python.NET scope", GH_ParamAccess.item);
+            pManager.AddParameter(new GHPScope(), "Scope", "S", "Python.NET scope", GH_ParamAccess.item);
+            //pManager.AddGenericParameter("Scope", "s", "Python.NET scope", GH_ParamAccess.item);
             pManager.AddTextParameter("Txt", "t", "demo", GH_ParamAccess.item);
         }
 
@@ -54,14 +58,16 @@ namespace FoodChain
         {
             using (Py.GIL())
             {
-                PyScope psIn = Py.CreateScope();
+                //PyScope psIn = Py.CreateScope();
+                GHScope ghScope = null;
                 String gName = null;
                 String uri = null;
 
-                if (!DA.GetData(0, ref psIn)) { return; }
+                if (!DA.GetData(0, ref ghScope)) { return; }
                 if (!DA.GetData(1, ref gName)) { return; }
                 if (!DA.GetData(2, ref uri)) { return; }
 
+                PyScope psIn = ghScope.Value.scope;
 
                 psIn.Exec($"{gName} = Graph()");
                 psIn.Exec($"{gName}.parse('{uri}')");
@@ -69,7 +75,7 @@ namespace FoodChain
 
                 dynamic outTxt = psIn.Get($"{gName}txt");
 
-                DA.SetData(0, psIn);
+                DA.SetData(0, ghScope);
                 DA.SetData(1, outTxt.ToString());
             }
         }
