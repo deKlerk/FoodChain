@@ -19,8 +19,7 @@ namespace FoodChain.Goo
         {
             get
             {
-                Type pscope = this.Value.scope.GetType();
-                if (pscope == typeof(PyScope)){ return true; }
+                if (this.Value.scope.GetType() == typeof(PyScope)){ return true; }
                 return false;
             }
         }
@@ -31,7 +30,7 @@ namespace FoodChain.Goo
 
         public override IGH_Goo Duplicate() => new GHScope(this);
 
-        public override string ToString() => this.Value.Name;
+        public override string ToString() => $"{this.Value.scope.GetType()}: {this.Value.Name}";
     }
     
     public class Scope
@@ -46,7 +45,12 @@ namespace FoodChain.Goo
                 this.Name = name;
                 this.scope = Py.CreateScope(name);
             }
+        }
 
+        public Scope(string name, PyScope scope)
+        {
+            this.Name = name;
+            this.scope = scope;
         }
     }
 }

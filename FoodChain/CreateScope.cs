@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using FoodChain.Settings;
 using FoodChain.Goo;
+using FoodChain.Parameters;
 
 namespace FoodChain
 {
@@ -36,7 +37,8 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Scope", "s", "Python.NET scope", GH_ParamAccess.item);
+            //pManager.AddGenericParameter("Scope", "s", "Python.NET scope", GH_ParamAccess.item);
+            pManager.AddParameter(new GHPScope(), "Scope", "S", "Python.NET scope", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -64,7 +66,11 @@ namespace FoodChain
                     ps.Exec("import SPARQLWrapper");
                     ps.Exec("import json");
 
-                    DA.SetData(0, ps);
+                    //DA.SetData(0, ps);
+
+                    Scope outscope = new Scope(sName, ps);
+                    GHScope outGHScope = new GHScope(outscope);
+                    DA.SetData(0, outGHScope);
                 }
                 catch(Exception e) { this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.Message); }   
             }           
