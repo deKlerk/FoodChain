@@ -3,6 +3,8 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using FoodChain.Parameters;
+using FoodChain.Goo;
 
 namespace FoodChain
 {
@@ -23,7 +25,7 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Scope", "s", "scope", GH_ParamAccess.item);
+            pManager.AddParameter(new GHPScope(), "Scope", "Sc", "Python.NET scope", GH_ParamAccess.item);
             pManager.AddTextParameter("Graph Name", "GN", "Name of the RDFLib Graph", GH_ParamAccess.item);
             pManager.AddTextParameter("Subject", "Sbj", "Subject to search against", GH_ParamAccess.item);
             pManager.AddTextParameter("Predicate", "Prd", "Predicate to search against", GH_ParamAccess.item);
@@ -37,7 +39,7 @@ namespace FoodChain
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Scope", "s", "Python.NET scope", GH_ParamAccess.item);
+            pManager.AddParameter(new GHPScope(), "Scope", "Sc", "Python.NET scope", GH_ParamAccess.item);
             pManager.AddTextParameter("Objects", "Obj", "Object elements in a RDFLib Graph", GH_ParamAccess.list);
         }
 
@@ -49,12 +51,12 @@ namespace FoodChain
         {
             using (Py.GIL())
             {
-                PyScope psIn = Py.CreateScope();
+                GHScope ghScope = null;
                 String gName = null;
                 String subj = "None";
                 String pred = "None";
 
-                if (!DA.GetData(0, ref psIn)) { return; }
+                if (!DA.GetData(0, ref ghScope)) { return; }
                 if (!DA.GetData(1, ref gName)) { return; }
                 
                 if (!DA.GetData(2, ref subj)) { }
@@ -63,13 +65,15 @@ namespace FoodChain
                 if (!DA.GetData(3, ref pred)) { }
                 else { DA.GetData(3, ref pred); }
 
+                PyScope psIn = ghScope.Value.scope;
+
                 psIn.Exec($"try: {gName}\n" +
                           $"except NameError: {gName} = Graph()");
                 psIn.Exec($"{gName}Obj = set({gName}.objects({subj}, {pred}))");
 
                 dynamic objects = psIn.Get($"{gName}Obj");
 
-                DA.SetData(0, psIn);
+                DA.SetData(0, ghScope);
                 DA.SetDataList(1, objects);
             }
         }

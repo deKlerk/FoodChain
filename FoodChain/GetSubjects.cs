@@ -56,7 +56,6 @@ namespace FoodChain
         {
             using (Py.GIL())
             {
-                //PyScope psIn = Py.CreateScope();
                 GHScope ghScope = null;
                 String gName = null;
                 String pred = "None";
