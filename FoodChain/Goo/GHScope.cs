@@ -45,7 +45,11 @@ namespace FoodChain.Goo
                 PyScope scope;
                 var state = PyScopeManager.Global.TryGet(name, out scope);
 
-                if (!state) { this.Value = new Scope(name); }
+                if (!state) 
+                { 
+                    this.Value = new Scope(name);
+                    return true;
+                }
                 this.Value.Name = name;
                 this.Value.scope = scope;
                 return true;
@@ -91,11 +95,13 @@ namespace FoodChain.Goo
                 this.scope = Py.CreateScope(name);
             }
         }
+        /* DEPRECATED
         public Scope(string name, PyScope scope)
         {
             this.Name = name;
             this.scope = scope;
         }
+        */
         public Scope(PyScope scope)
         {
             this.scope = scope;

@@ -65,7 +65,7 @@ namespace FoodChain
                     ps.Exec("import SPARQLWrapper");
                     ps.Exec("import json");
 
-                    Scope outscope = new Scope(sName, ps);
+                    Scope outscope = new Scope(ps);
                     GHScope outGHScope = new GHScope(outscope);
 
                     DA.SetData(0, outGHScope);
