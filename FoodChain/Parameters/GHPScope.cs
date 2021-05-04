@@ -19,5 +19,6 @@ namespace FoodChain.Parameters
         public override Guid ComponentGuid => new Guid("7e7cedc3-5e6d-4c46-9a39-772f0fb87488");
         public override GH_Exposure Exposure => GH_Exposure.primary;
         public override void CreateAttributes() => base.CreateAttributes();
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.Scope;
     }
 }

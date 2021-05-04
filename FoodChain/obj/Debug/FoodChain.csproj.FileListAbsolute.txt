@@ -7,3 +7,5 @@ C:\Users\ruide\source\repos\FoodChain\FoodChain\bin\Python.Runtime.xml
 C:\Users\ruide\source\repos\FoodChain\FoodChain\obj\Debug\FoodChain.csproj.CopyComplete
 C:\Users\ruide\source\repos\FoodChain\FoodChain\obj\Debug\FoodChain.dll
 C:\Users\ruide\source\repos\FoodChain\FoodChain\obj\Debug\FoodChain.pdb
+C:\Users\ruide\source\repos\FoodChain\FoodChain\obj\Debug\FoodChain.Properties.Resources.resources
+C:\Users\ruide\source\repos\FoodChain\FoodChain\obj\Debug\FoodChain.csproj.GenerateResource.cache
