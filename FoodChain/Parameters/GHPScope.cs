@@ -14,7 +14,7 @@ namespace FoodChain.Parameters
     {
         public GHPScope() : base("Scope", "Sc",
               "Python.NET Scope",
-              "Food Chain", "Parameters", GH_ParamAccess.item) { }
+              "Food Chain", "Scope", GH_ParamAccess.item) { }
 
         public override Guid ComponentGuid => new Guid("7e7cedc3-5e6d-4c46-9a39-772f0fb87488");
         public override GH_Exposure Exposure => GH_Exposure.primary;
