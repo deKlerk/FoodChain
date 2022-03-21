@@ -66,12 +66,22 @@ namespace FoodChain
                 if (!DA.GetData(2, ref uri)) { return; }
 
                 PyScope psIn = ghScope.Value.scope;
-
                 psIn.Exec($"{gName} = Graph()");
-                psIn.Exec($"{gName}.parse('{uri}')");
-                psIn.Exec($"{gName}txt = {gName}.serialize(format='{outformat}').decode('utf-8')");
 
-                dynamic outTxt = psIn.Get($"{gName}txt");
+                DA.SetData(1, uri.ToString());
+                if (uri.StartsWith("http"))
+                {
+                    Uri in_uri = new Uri(uri);
+                    psIn.Exec($"{gName}.parse('{in_uri}')");
+                    psIn.Exec($"{gName}_txt = {gName}.serialize(format='{outformat}')");
+                }
+                else
+                {
+                    psIn.Exec($"{gName}.parse(r'{uri}')");
+                    psIn.Exec($"{gName}_txt = {gName}.serialize(format=r'{outformat}').decode('utf-8')");
+                }
+
+                dynamic outTxt = psIn.Get($"{gName}_txt");
 
                 DA.SetData(0, ghScope);
                 DA.SetData(1, outTxt.ToString());
